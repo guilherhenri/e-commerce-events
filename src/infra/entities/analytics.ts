@@ -30,7 +30,7 @@ export class Analytics {
   @ForeignKey<Order>('Order', { onDelete: 'SET NULL', onUpdate: 'CASCADE' })
   orderId: string | null
 
-  @Column('varchar', { name: 'user_email', unique: true, nullable: true })
+  @Column('varchar', { name: 'user_email', nullable: true })
   userEmail: string | null
 
   @Column('varchar')

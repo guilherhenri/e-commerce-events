@@ -21,6 +21,7 @@ async function registerOrderConversion(data: RegisterOrderConversionProps) {
     orderId: data.orderId,
     eventType: AnalyticsEventType.CONVERSION,
     metadata,
+    action: 'A order was created',
   })
 
   eventBus.emitEvent('CONVERSION_TRACKED', null)

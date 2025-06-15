@@ -34,7 +34,7 @@ export class Payment {
   @ForeignKey<Order>('Order', { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   orderId: string
 
-  @Column('int')
+  @Column('decimal')
   amount: number
 
   @Column({

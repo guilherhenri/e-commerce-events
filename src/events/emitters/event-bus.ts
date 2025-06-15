@@ -1,22 +1,34 @@
-import { EventEmitter } from 'node:stream'
+import { EventEmitter } from 'node:events'
 
-export type Event =
-  | 'ORDER_CREATED'
-  | 'ORDER_UPDATED'
-  | 'ORDER_CANCELLED'
-  | 'ORDER_COMPLETED'
-  | 'PAYMENT_INITIATED'
-  | 'PAYMENT_APPROVED'
-  | 'PAYMENT_FAILED'
-  | 'PAYMENT_REFUNDED'
-  | 'INVENTORY_RESERVED'
-  | 'INVENTORY_RELEASED'
-  | 'INVENTORY_LOW_STOCK'
-  | 'EMAIL_SEND_REQUESTED'
-  | 'SMS_SEND_REQUESTED'
-  | 'PUSH_NOTIFICATION_REQUESTED'
-  | 'USER_ACTION_TRACKED'
-  | 'CONVERSION_TRACKED'
+import type { PaymentMethod } from '@/infra/entities/payment'
+
+interface EventMap {
+  ORDER_CREATED: {
+    orderId: string
+    totalAmount: number
+    paymentMethod: PaymentMethod
+    items: {
+      productId: string
+      quantity: number
+    }[]
+    recipient: string
+  }
+  ORDER_UPDATED: null
+  ORDER_CANCELLED: null
+  ORDER_COMPLETED: null
+  PAYMENT_INITIATED: null
+  PAYMENT_APPROVED: null
+  PAYMENT_FAILED: null
+  PAYMENT_REFUNDED: null
+  INVENTORY_RESERVED: null
+  INVENTORY_RELEASED: null
+  INVENTORY_LOW_STOCK: null
+  EMAIL_SEND_REQUESTED: null
+  SMS_SEND_REQUESTED: null
+  PUSH_NOTIFICATION_REQUESTED: null
+  USER_ACTION_TRACKED: null
+  CONVERSION_TRACKED: null
+}
 
 export class EventBus extends EventEmitter {
   private static instance: EventBus // eslint-disable-line
@@ -29,11 +41,17 @@ export class EventBus extends EventEmitter {
     return EventBus.instance
   }
 
-  emitEvent<T>(eventName: Event, data: T): void {
+  emitEvent<Event extends keyof EventMap>(
+    eventName: Event,
+    data: EventMap[Event],
+  ): void {
     this.emit(eventName, data)
   }
 
-  on<T>(eventName: Event, listener: (data: T) => void): this {
+  on<Event extends keyof EventMap>(
+    eventName: Event,
+    listener: (data: EventMap[Event]) => void,
+  ): this {
     return super.on(eventName, listener)
   }
 }

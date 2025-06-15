@@ -50,7 +50,7 @@ export class Notification {
   @Column('text')
   message: string
 
-  @Column('timestamp')
+  @Column('timestamp', { name: 'sent_at', nullable: true })
   sentAt: Date | null
 
   @ManyToOne(() => Order, (order) => order.notifications)

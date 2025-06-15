@@ -17,6 +17,7 @@ async function sendEmailNotification(data: SendNotificationProps) {
     orderId,
     type: NotificationType.EMAIL,
     recipient,
+    message: 'Your order was created',
   })
 
   eventBus.emitEvent('EMAIL_SEND_REQUESTED', null)

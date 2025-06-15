@@ -28,11 +28,10 @@ export class Order {
   @Column({
     type: 'varchar',
     name: 'user_email',
-    unique: true,
   })
   userEmail: string
 
-  @Column('int')
+  @Column('decimal')
   totalAmount: number
 
   @Column({
